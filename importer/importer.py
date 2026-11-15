@@ -64,8 +64,26 @@ def connect() -> JIRA:
 
 def find_existing_issue(jira: JIRA, project_key: str, src_label: str):
     jql = f'project = "{project_key}" AND labels = "{src_label}"'
-    results = jira.search_issues(jql, maxResults=1)
+    results = jira.search_issues(jql, maxResults=1, fields="comment")
     return results[0] if results else None
+
+
+def reconcile_comments(jira: JIRA, issue, record: dict) -> None:
+    """If a previous run created the issue but failed partway through adding
+    its comments (e.g. a transient API error), a plain re-run would silently
+    leave those comments missing forever, since find_existing_issue would
+    just skip the issue entirely. Instead, top up any comments beyond what's
+    already there. This assumes comments are only ever appended in the same
+    order dataset-side, which holds for this dataset."""
+    existing_count = len(issue.fields.comment.comments) if issue.fields.comment else 0
+    wanted = record.get("comments", [])
+    if existing_count >= len(wanted):
+        return
+    for comment in wanted[existing_count:]:
+        try:
+            jira.add_comment(issue, comment)
+        except JIRAError as e:
+            print(f"    (warning) could not backfill a comment on {issue.key}: {e}")
 
 
 def create_record_issue(jira: JIRA, project_key: str, record: dict) -> str:
@@ -74,6 +92,7 @@ def create_record_issue(jira: JIRA, project_key: str, record: dict) -> str:
 
     existing = find_existing_issue(jira, project_key, src_label)
     if existing is not None:
+        reconcile_comments(jira, existing, record)
         print(f"  [skip] {source_id} already imported as {existing.key}")
         return existing.key
 

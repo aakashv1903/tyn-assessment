@@ -9,149 +9,157 @@
   "overall_decision": "BLOCKED",
   "requirements": [
     {
-      "requirement_key": "TYN-400",
+      "requirement_key": "REQ-12",
       "requirement_summary": "[REQ-12] Streaming completion integrity",
       "decision": "FAIL",
-      "explanation": "QA verification (REC-5957) found a defect where streaming case STREAM-50 produced a duplicated final message.",
+      "explanation": "QA verification (REC-5957) reported a failure: 49 of 50 cases passed, with one case producing a duplicated final message.",
       "evidence_refs": [
         {
           "key": "REC-5957",
-          "note": "Defect confirmed in QA run for target release and commit"
+          "note": "Failed streaming verification run"
         }
       ]
     },
     {
-      "requirement_key": "TYN-352",
+      "requirement_key": "REQ-05",
       "requirement_summary": "[REQ-05] Model usage cost",
       "decision": "PASS",
-      "explanation": "The cost criterion (exceeding USD 0.012) was formally waived by release management for this release.",
+      "explanation": "Although the measured cost (REC-5716) of USD 0.018 exceeds the threshold, an explicit waiver was issued by release management (REC-5716, comment 3).",
       "evidence_refs": [
         {
           "key": "REC-5716",
-          "note": "Requirement waived by release management per comment"
+          "note": "Contains both the failure and the official waiver"
         }
       ]
     },
     {
-      "requirement_key": "TYN-329",
+      "requirement_key": "REQ-07",
       "requirement_summary": "[REQ-07] Sensitive log redaction",
       "decision": "PASS",
-      "explanation": "The redaction retest (REC-9745) explicitly superseded a failed test and confirmed 28 of 28 cases pass on the target release.",
+      "explanation": "Initial failure (REC-9745) was superseded by a successful retest on the target build (REC-9745, comment 2).",
       "evidence_refs": [
         {
           "key": "REC-9745",
-          "note": "Redaction retest confirmed 28 of 28 cases pass"
+          "note": "Successful retest on target build"
         }
       ]
     },
     {
-      "requirement_key": "TYN-263",
+      "requirement_key": "REQ-02",
       "requirement_summary": "[REQ-02] Customer document isolation",
       "decision": "FAIL",
-      "explanation": "Isolation retest (REC-1001) failed on the target release due to a cross-customer document exposure, and the defect was reopened.",
+      "explanation": "Isolation retest (REC-1001) confirmed a cross-customer document exposure, which blocks the release.",
       "evidence_refs": [
         {
           "key": "REC-1001",
-          "note": "Retest failed due to cross-customer exposure; defect remains open"
+          "note": "Confirmed isolation failure"
         }
       ]
     },
     {
-      "requirement_key": "TYN-225",
+      "requirement_key": "REQ-03",
       "requirement_summary": "[REQ-03] Answer quality for deployed prompt",
-      "decision": "PASS",
-      "explanation": "The evaluation achieved 96.2 percent accuracy, meeting the 90 percent requirement for the target release.",
+      "decision": "INSUFFICIENT_EVIDENCE",
+      "explanation": "No QA evaluation matches the full target configuration. REC-4323 reports 96.2 percent on release R2.4, commit b7a91f2, service atlas-assistant, and production, but its EVAL-55 harness was configured with prompt p6. REC-1600 uses prompt p7 but is for commit 9c3e1aa in staging. Neither establishes the required 90 percent threshold for the deployed p7 prompt on the target production build.",
       "evidence_refs": [
         {
           "key": "REC-4323",
-          "note": "Evaluation passed with 96.2 percent accuracy"
+          "note": "96.2% on target release/commit/service/production, but evaluation used prompt p6"
+        },
+        {
+          "key": "REC-1600",
+          "note": "Prompt p7 evaluation, but wrong commit (9c3e1aa) and staging environment"
         }
       ]
     },
     {
-      "requirement_key": "TYN-162",
+      "requirement_key": "REQ-11",
       "requirement_summary": "[REQ-11] Accessible keyboard handoff",
-      "decision": "INSUFFICIENT_EVIDENCE",
-      "explanation": "The provided QA evidence (REC-8801) is for release R2.3, not the target release R2.4.",
+      "decision": "PASS",
+      "explanation": "QA verification REC-8801 confirms keyboard navigation passes on the production environment.",
       "evidence_refs": [
         {
           "key": "REC-8801",
-          "note": "Evidence is for release R2.3; no R2.4 data found"
+          "note": "Successful QA verification"
         }
       ]
     },
     {
-      "requirement_key": "TYN-143",
+      "requirement_key": "REQ-09",
       "requirement_summary": "[REQ-09] Rollback rehearsal",
-      "decision": "PASS",
-      "explanation": "Rollback rehearsal (REC-6011) succeeded on the target release and production environment.",
+      "decision": "INSUFFICIENT_EVIDENCE",
+      "explanation": "Two QA Lead records report contradictory rollback rehearsals for the exact target release R2.4, commit b7a91f2, service atlas-assistant, and production. REC-6011 reports success with no data loss; REC-6198 reports failure with 214 session records lost. Neither record explicitly supersedes the other or resolves the conflict, so the manifest requires INSUFFICIENT_EVIDENCE.",
       "evidence_refs": [
         {
           "key": "REC-6011",
-          "note": "Rehearsal successful on target release"
+          "note": "RB-401 reports successful restore and no data loss at 11:00"
+        },
+        {
+          "key": "REC-6198",
+          "note": "RB-402 reports failure and 214 lost session records at 11:30"
         }
       ]
     },
     {
-      "requirement_key": "TYN-89",
+      "requirement_key": "REQ-01",
       "requirement_summary": "[REQ-01] Automated regression tests",
       "decision": "PASS",
-      "explanation": "Regression run (REC-2081) confirmed 146 of 146 mandatory regression cases pass on the target release.",
+      "explanation": "QA confirmed (REC-2081) that 146 of 146 mandatory cases passed on the target build.",
       "evidence_refs": [
         {
           "key": "REC-2081",
-          "note": "All regression cases passed on target release"
+          "note": "Successful regression run"
         }
       ]
     },
     {
-      "requirement_key": "TYN-73",
+      "requirement_key": "REQ-06",
       "requirement_summary": "[REQ-06] Production security approval",
-      "decision": "FAIL",
-      "explanation": "Security Owner Asha Rao approved for staging only, not production as required by the assessment rules.",
+      "decision": "INSUFFICIENT_EVIDENCE",
+      "explanation": "Security Owner Asha Rao approved for staging (REC-2828), but explicitly stated that production sign-off is pending.",
       "evidence_refs": [
         {
           "key": "REC-2828",
-          "note": "Approval explicitly limited to staging"
+          "note": "Staging approval only; production pending"
         }
       ]
     },
     {
-      "requirement_key": "TYN-57",
+      "requirement_key": "REQ-10",
       "requirement_summary": "[REQ-10] Document parsing completeness",
       "decision": "PASS",
-      "explanation": "Parsing retest (REC-9611) confirmed 60 of 60 cases pass on the target release.",
+      "explanation": "Initial failure was superseded by a successful retest on the target build (REC-9611, comment 2).",
       "evidence_refs": [
         {
           "key": "REC-9611",
-          "note": "Parsing retest confirmed all cases passed"
+          "note": "Successful retest on target build"
         }
       ]
     },
     {
-      "requirement_key": "TYN-53",
+      "requirement_key": "REQ-04",
       "requirement_summary": "[REQ-04] Response latency",
       "decision": "PASS",
-      "explanation": "Performance run (REC-6024) confirmed a p95 latency of 1.40 seconds, well within the 2.0-second limit.",
+      "explanation": "Production run REC-6024 confirmed p95 latency of 1.40 seconds, well within the 2.0s limit.",
       "evidence_refs": [
         {
           "key": "REC-6024",
-          "note": "Performance metrics confirm latency is under 2.0s"
+          "note": "Successful production performance run"
         }
       ]
     },
     {
-      "requirement_key": "TYN-48",
+      "requirement_key": "REQ-08",
       "requirement_summary": "[REQ-08] Human handoff delivery",
       "decision": "FAIL",
-      "explanation": "Queue adapter verification (REC-9635) found that 0 of 12 escalated conversations reached the support queue; the defect (HND-DEF-4) is open.",
+      "explanation": "Verification (REC-9635) failed: 0 of 12 escalations reached the queue due to a confirmed open defect.",
       "evidence_refs": [
         {
           "key": "REC-9635",
-          "note": "Queue adapter fails to deliver escalations; defect open"
+          "note": "Failed handoff delivery verification"
         }
       ]
     }
   ],
-  "notes": "Regression test record TYN-316 was listed as In Progress but contained the definitive passing result required."
+  "notes": "Post-run reviewer correction: REQ-03 and REQ-09 were revised after reviewing the linked Jira records. This 98-call Gemini run fetched REC-6198, but still misclassified both requirements. The report decisions below are reviewer corrections, not the model output."
 }

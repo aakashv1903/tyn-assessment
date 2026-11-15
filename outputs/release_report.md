@@ -6,101 +6,104 @@
 
 ## Requirement-by-requirement decisions
 
-### TYN-400 — [REQ-12] Streaming completion integrity
+### REQ-12 — [REQ-12] Streaming completion integrity
 **Decision:** FAIL
 
-QA verification (REC-5957) found a defect where streaming case STREAM-50 produced a duplicated final message.
+QA verification (REC-5957) reported a failure: 49 of 50 cases passed, with one case producing a duplicated final message.
 
 **Evidence referenced:**
-- `REC-5957` — Defect confirmed in QA run for target release and commit
+- `REC-5957` — Failed streaming verification run
 
-### TYN-352 — [REQ-05] Model usage cost
+### REQ-05 — [REQ-05] Model usage cost
 **Decision:** PASS
 
-The cost criterion (exceeding USD 0.012) was formally waived by release management for this release.
+Although the measured cost (REC-5716) of USD 0.018 exceeds the threshold, an explicit waiver was issued by release management (REC-5716, comment 3).
 
 **Evidence referenced:**
-- `REC-5716` — Requirement waived by release management per comment
+- `REC-5716` — Contains both the failure and the official waiver
 
-### TYN-329 — [REQ-07] Sensitive log redaction
+### REQ-07 — [REQ-07] Sensitive log redaction
 **Decision:** PASS
 
-The redaction retest (REC-9745) explicitly superseded a failed test and confirmed 28 of 28 cases pass on the target release.
+Initial failure (REC-9745) was superseded by a successful retest on the target build (REC-9745, comment 2).
 
 **Evidence referenced:**
-- `REC-9745` — Redaction retest confirmed 28 of 28 cases pass
+- `REC-9745` — Successful retest on target build
 
-### TYN-263 — [REQ-02] Customer document isolation
+### REQ-02 — [REQ-02] Customer document isolation
 **Decision:** FAIL
 
-Isolation retest (REC-1001) failed on the target release due to a cross-customer document exposure, and the defect was reopened.
+Isolation retest (REC-1001) confirmed a cross-customer document exposure, which blocks the release.
 
 **Evidence referenced:**
-- `REC-1001` — Retest failed due to cross-customer exposure; defect remains open
+- `REC-1001` — Confirmed isolation failure
 
-### TYN-225 — [REQ-03] Answer quality for deployed prompt
-**Decision:** PASS
-
-The evaluation achieved 96.2 percent accuracy, meeting the 90 percent requirement for the target release.
-
-**Evidence referenced:**
-- `REC-4323` — Evaluation passed with 96.2 percent accuracy
-
-### TYN-162 — [REQ-11] Accessible keyboard handoff
+### REQ-03 — [REQ-03] Answer quality for deployed prompt
 **Decision:** INSUFFICIENT_EVIDENCE
 
-The provided QA evidence (REC-8801) is for release R2.3, not the target release R2.4.
+No QA evaluation matches the full target configuration. REC-4323 reports 96.2 percent on release R2.4, commit b7a91f2, service atlas-assistant, and production, but its EVAL-55 harness was configured with prompt p6. REC-1600 uses prompt p7 but is for commit 9c3e1aa in staging. Neither establishes the required 90 percent threshold for the deployed p7 prompt on the target production build.
 
 **Evidence referenced:**
-- `REC-8801` — Evidence is for release R2.3; no R2.4 data found
+- `REC-4323` — 96.2% on target release/commit/service/production, but evaluation used prompt p6
+- `REC-1600` — Prompt p7 evaluation, but wrong commit (9c3e1aa) and staging environment
 
-### TYN-143 — [REQ-09] Rollback rehearsal
+### REQ-11 — [REQ-11] Accessible keyboard handoff
 **Decision:** PASS
 
-Rollback rehearsal (REC-6011) succeeded on the target release and production environment.
+QA verification REC-8801 confirms keyboard navigation passes on the production environment.
 
 **Evidence referenced:**
-- `REC-6011` — Rehearsal successful on target release
+- `REC-8801` — Successful QA verification
 
-### TYN-89 — [REQ-01] Automated regression tests
+### REQ-09 — [REQ-09] Rollback rehearsal
+**Decision:** INSUFFICIENT_EVIDENCE
+
+Two QA Lead records report contradictory rollback rehearsals for the exact target release R2.4, commit b7a91f2, service atlas-assistant, and production. REC-6011 reports success with no data loss; REC-6198 reports failure with 214 session records lost. Neither record explicitly supersedes the other or resolves the conflict, so the manifest requires INSUFFICIENT_EVIDENCE.
+
+**Evidence referenced:**
+- `REC-6011` — RB-401 reports successful restore and no data loss at 11:00
+- `REC-6198` — RB-402 reports failure and 214 lost session records at 11:30
+
+### REQ-01 — [REQ-01] Automated regression tests
 **Decision:** PASS
 
-Regression run (REC-2081) confirmed 146 of 146 mandatory regression cases pass on the target release.
+QA confirmed (REC-2081) that 146 of 146 mandatory cases passed on the target build.
 
 **Evidence referenced:**
-- `REC-2081` — All regression cases passed on target release
+- `REC-2081` — Successful regression run
 
-### TYN-73 — [REQ-06] Production security approval
+### REQ-06 — [REQ-06] Production security approval
+**Decision:** INSUFFICIENT_EVIDENCE
+
+Security Owner Asha Rao approved for staging (REC-2828), but explicitly stated that production sign-off is pending.
+
+**Evidence referenced:**
+- `REC-2828` — Staging approval only; production pending
+
+### REQ-10 — [REQ-10] Document parsing completeness
+**Decision:** PASS
+
+Initial failure was superseded by a successful retest on the target build (REC-9611, comment 2).
+
+**Evidence referenced:**
+- `REC-9611` — Successful retest on target build
+
+### REQ-04 — [REQ-04] Response latency
+**Decision:** PASS
+
+Production run REC-6024 confirmed p95 latency of 1.40 seconds, well within the 2.0s limit.
+
+**Evidence referenced:**
+- `REC-6024` — Successful production performance run
+
+### REQ-08 — [REQ-08] Human handoff delivery
 **Decision:** FAIL
 
-Security Owner Asha Rao approved for staging only, not production as required by the assessment rules.
+Verification (REC-9635) failed: 0 of 12 escalations reached the queue due to a confirmed open defect.
 
 **Evidence referenced:**
-- `REC-2828` — Approval explicitly limited to staging
+- `REC-9635` — Failed handoff delivery verification
 
-### TYN-57 — [REQ-10] Document parsing completeness
-**Decision:** PASS
+## Reviewer correction notes
 
-Parsing retest (REC-9611) confirmed 60 of 60 cases pass on the target release.
-
-**Evidence referenced:**
-- `REC-9611` — Parsing retest confirmed all cases passed
-
-### TYN-53 — [REQ-04] Response latency
-**Decision:** PASS
-
-Performance run (REC-6024) confirmed a p95 latency of 1.40 seconds, well within the 2.0-second limit.
-
-**Evidence referenced:**
-- `REC-6024` — Performance metrics confirm latency is under 2.0s
-
-### TYN-48 — [REQ-08] Human handoff delivery
-**Decision:** FAIL
-
-Queue adapter verification (REC-9635) found that 0 of 12 escalated conversations reached the support queue; the defect (HND-DEF-4) is open.
-
-**Evidence referenced:**
-- `REC-9635` — Queue adapter fails to deliver escalations; defect open
-
-## Notes / known issues encountered during the run
-Regression test record TYN-316 was listed as In Progress but contained the definitive passing result required.
+Post-run reviewer correction: REQ-03 and REQ-09 were revised after reviewing the linked Jira records. This 98-call Gemini run fetched REC-6198, but still misclassified both requirements. The report decisions below are reviewer corrections, not the model output.
