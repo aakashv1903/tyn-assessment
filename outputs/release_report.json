@@ -1,0 +1,157 @@
+{
+  "target": {
+    "release": "R2.4",
+    "commit": "b7a91f2",
+    "prompt": "p7",
+    "environment": "production",
+    "service": "atlas-assistant"
+  },
+  "overall_decision": "BLOCKED",
+  "requirements": [
+    {
+      "requirement_key": "TYN-400",
+      "requirement_summary": "[REQ-12] Streaming completion integrity",
+      "decision": "FAIL",
+      "explanation": "QA verification (REC-5957) found a defect where streaming case STREAM-50 produced a duplicated final message.",
+      "evidence_refs": [
+        {
+          "key": "REC-5957",
+          "note": "Defect confirmed in QA run for target release and commit"
+        }
+      ]
+    },
+    {
+      "requirement_key": "TYN-352",
+      "requirement_summary": "[REQ-05] Model usage cost",
+      "decision": "PASS",
+      "explanation": "The cost criterion (exceeding USD 0.012) was formally waived by release management for this release.",
+      "evidence_refs": [
+        {
+          "key": "REC-5716",
+          "note": "Requirement waived by release management per comment"
+        }
+      ]
+    },
+    {
+      "requirement_key": "TYN-329",
+      "requirement_summary": "[REQ-07] Sensitive log redaction",
+      "decision": "PASS",
+      "explanation": "The redaction retest (REC-9745) explicitly superseded a failed test and confirmed 28 of 28 cases pass on the target release.",
+      "evidence_refs": [
+        {
+          "key": "REC-9745",
+          "note": "Redaction retest confirmed 28 of 28 cases pass"
+        }
+      ]
+    },
+    {
+      "requirement_key": "TYN-263",
+      "requirement_summary": "[REQ-02] Customer document isolation",
+      "decision": "FAIL",
+      "explanation": "Isolation retest (REC-1001) failed on the target release due to a cross-customer document exposure, and the defect was reopened.",
+      "evidence_refs": [
+        {
+          "key": "REC-1001",
+          "note": "Retest failed due to cross-customer exposure; defect remains open"
+        }
+      ]
+    },
+    {
+      "requirement_key": "TYN-225",
+      "requirement_summary": "[REQ-03] Answer quality for deployed prompt",
+      "decision": "PASS",
+      "explanation": "The evaluation achieved 96.2 percent accuracy, meeting the 90 percent requirement for the target release.",
+      "evidence_refs": [
+        {
+          "key": "REC-4323",
+          "note": "Evaluation passed with 96.2 percent accuracy"
+        }
+      ]
+    },
+    {
+      "requirement_key": "TYN-162",
+      "requirement_summary": "[REQ-11] Accessible keyboard handoff",
+      "decision": "INSUFFICIENT_EVIDENCE",
+      "explanation": "The provided QA evidence (REC-8801) is for release R2.3, not the target release R2.4.",
+      "evidence_refs": [
+        {
+          "key": "REC-8801",
+          "note": "Evidence is for release R2.3; no R2.4 data found"
+        }
+      ]
+    },
+    {
+      "requirement_key": "TYN-143",
+      "requirement_summary": "[REQ-09] Rollback rehearsal",
+      "decision": "PASS",
+      "explanation": "Rollback rehearsal (REC-6011) succeeded on the target release and production environment.",
+      "evidence_refs": [
+        {
+          "key": "REC-6011",
+          "note": "Rehearsal successful on target release"
+        }
+      ]
+    },
+    {
+      "requirement_key": "TYN-89",
+      "requirement_summary": "[REQ-01] Automated regression tests",
+      "decision": "PASS",
+      "explanation": "Regression run (REC-2081) confirmed 146 of 146 mandatory regression cases pass on the target release.",
+      "evidence_refs": [
+        {
+          "key": "REC-2081",
+          "note": "All regression cases passed on target release"
+        }
+      ]
+    },
+    {
+      "requirement_key": "TYN-73",
+      "requirement_summary": "[REQ-06] Production security approval",
+      "decision": "FAIL",
+      "explanation": "Security Owner Asha Rao approved for staging only, not production as required by the assessment rules.",
+      "evidence_refs": [
+        {
+          "key": "REC-2828",
+          "note": "Approval explicitly limited to staging"
+        }
+      ]
+    },
+    {
+      "requirement_key": "TYN-57",
+      "requirement_summary": "[REQ-10] Document parsing completeness",
+      "decision": "PASS",
+      "explanation": "Parsing retest (REC-9611) confirmed 60 of 60 cases pass on the target release.",
+      "evidence_refs": [
+        {
+          "key": "REC-9611",
+          "note": "Parsing retest confirmed all cases passed"
+        }
+      ]
+    },
+    {
+      "requirement_key": "TYN-53",
+      "requirement_summary": "[REQ-04] Response latency",
+      "decision": "PASS",
+      "explanation": "Performance run (REC-6024) confirmed a p95 latency of 1.40 seconds, well within the 2.0-second limit.",
+      "evidence_refs": [
+        {
+          "key": "REC-6024",
+          "note": "Performance metrics confirm latency is under 2.0s"
+        }
+      ]
+    },
+    {
+      "requirement_key": "TYN-48",
+      "requirement_summary": "[REQ-08] Human handoff delivery",
+      "decision": "FAIL",
+      "explanation": "Queue adapter verification (REC-9635) found that 0 of 12 escalated conversations reached the support queue; the defect (HND-DEF-4) is open.",
+      "evidence_refs": [
+        {
+          "key": "REC-9635",
+          "note": "Queue adapter fails to deliver escalations; defect open"
+        }
+      ]
+    }
+  ],
+  "notes": "Regression test record TYN-316 was listed as In Progress but contained the definitive passing result required."
+}

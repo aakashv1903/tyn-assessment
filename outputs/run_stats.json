@@ -1,0 +1,11 @@
+{
+  "provider": "gemini",
+  "model": "gemini-3.1-flash-lite",
+  "backend": "jira",
+  "elapsed_seconds": 225.71,
+  "tool_calls": 27,
+  "token_usage": {
+    "input_tokens": 19855,
+    "output_tokens": 1528
+  }
+}
